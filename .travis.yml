@@ -1,0 +1,17 @@
+language: python
+sudo: required
+services:
+  - docker
+env:
+  - COMPOSE_FILE=docker-compose-dev.yml
+
+before_install:
+  - docker version
+  - docker-compose --version
+
+
+script:
+  - docker-compose up -d
+  - sleep 5
+  - curl http://localhost:8000/ | grep -q "Read the Docs"
+  - docker-compose down -v
